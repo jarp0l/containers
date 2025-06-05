@@ -17,7 +17,7 @@ LABEL com.vmware.cp.artifact.flavor="sha256:c50c90cfd9d12b445b011e6ad529f1ad3dae
       org.opencontainers.image.vendor="Broadcom, Inc." \
       org.opencontainers.image.version="2.27.20"
 
-ENV HOME="/" \
+ENV HOME="/app" \
     OS_ARCH="${TARGETARCH:-amd64}" \
     OS_FLAVOUR="debian-12" \
     OS_NAME="linux"
@@ -49,6 +49,9 @@ ENV APP_VERSION="2.27.20" \
     AWS_CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt" \
     BITNAMI_APP_NAME="aws-cli" \
     PATH="/opt/bitnami/python/bin:/opt/bitnami/aws-cli/bin:/opt/bitnami/aws-cli/venv/bin:$PATH"
+
+RUN mkdir -p $HOME && chown 1001:1001 $HOME
+WORKDIR $HOME
 
 USER 1001
 ENTRYPOINT [ "aws" ]
